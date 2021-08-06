@@ -601,17 +601,24 @@ ngx_http_testcookie_handler(ngx_http_request_t *r)
     }
 
     if (conf->enable == NGX_HTTP_TESTCOOKIE_VAR) {
-        // testcookie_var = ngx_http_get_variable(r, &ngx_http_testcookie_var,
-		// 	ngx_hash_key(ngx_http_testcookie_var.data, ngx_http_testcookie_var.len));
+
+        ngx_log_debug0(NGX_LOG_DEBUG_HTTP, r->connection->log, 0, "ngx_http_testcookie_var");
 
 
-        // if (testcookie_var == NULL || testcookie_var->not_found) {
-        //     return NGX_DECLINED;
-        // }
+        testcookie_var = ngx_http_get_variable(r, &ngx_http_testcookie_var,
+			ngx_hash_key(ngx_http_testcookie_var.data, ngx_http_testcookie_var.len));
 
-        // if (ngx_strcmp(testcookie_var->data, "on") != 0) {
-        //     return NGX_DECLINED;
-        // }
+
+        if (testcookie_var == NULL || testcookie_var->not_found) {
+            return NGX_DECLINED;
+        }
+
+        if (ngx_strcmp(testcookie_var->data, "on") != 0) {
+            return NGX_DECLINED;
+        }
+        ngx_log_debug1(NGX_LOG_DEBUG_HTTP, r->connection->log, 0,
+                      "testcookie_var: \"%V\"",
+                      &testcookie_var->value);
     }
 
     if (conf->get_only
