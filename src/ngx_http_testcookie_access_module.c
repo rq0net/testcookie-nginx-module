@@ -611,13 +611,13 @@ ngx_http_testcookie_handler(ngx_http_request_t *r)
         
 
         if (testcookie_var == NULL || testcookie_var->not_found) {
-            ngx_log_debug1(NGX_LOG_DEBUG_HTTP, r->connection->log, 0,
+            ngx_log_debug0(NGX_LOG_DEBUG_HTTP, r->connection->log, 0,
                       "testcookie_var: null");
 
             return NGX_DECLINED;
         }
 
-        ngx_log_debug1(NGX_LOG_DEBUG_HTTP, r->connection->log, 0,
+        ngx_log_debug0(NGX_LOG_DEBUG_HTTP, r->connection->log, 0,
                       "testcookie_var: \"%V\"",
                       &testcookie_var->data);
 
