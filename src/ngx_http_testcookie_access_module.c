@@ -135,6 +135,8 @@ static char *ngx_http_testcookie_set_encryption_key(ngx_conf_t *cf, ngx_command_
 static char *ngx_http_testcookie_set_encryption_iv(ngx_conf_t *cf, ngx_command_t *cmd, void *conf);
 #endif
 
+
+
 static u_char expires[] = "; expires=Thu, 31-Dec-37 23:55:55 GMT";
 
 static u_char ngx_http_msie_refresh_head[] =
@@ -386,6 +388,8 @@ static ngx_str_t  ngx_http_testcookie_ok = ngx_string("testcookie_ok");
 static ngx_str_t  ngx_http_testcookie_nexturl = ngx_string("testcookie_nexturl");
 static ngx_str_t  ngx_http_testcookie_timestamp = ngx_string("testcookie_timestamp");
 
+static ngx_str_t ngx_http_testcookie_var = ngx_string("testcookie_var");
+
 #ifdef REFRESH_COOKIE_ENCRYPTION
 static ngx_str_t  ngx_http_testcookie_enc_set = ngx_string("testcookie_enc_set");
 static ngx_str_t  ngx_http_testcookie_enc_iv = ngx_string("testcookie_enc_iv");
@@ -559,6 +563,7 @@ ngx_http_testcookie_handler(ngx_http_request_t *r)
     ngx_str_t       pass_mode;
     ngx_uint_t            port = 80; /* make gcc happy */
     struct sockaddr_in   *sin;
+    ngx_http_variable_value_t *testcookie_var;
 #if (NGX_HAVE_INET6)
     struct sockaddr_in6  *sin6;
 #endif
@@ -596,7 +601,17 @@ ngx_http_testcookie_handler(ngx_http_request_t *r)
     }
 
     if (conf->enable == NGX_HTTP_TESTCOOKIE_VAR) {
-        return NGX_DECLINED;
+        testcookie_var = ngx_http_get_variable(r, &ngx_http_testcookie_var,
+			ngx_hash_key(ngx_http_testcookie_var.data, ngx_http_testcookie_var.len));
+
+
+        if (testcookie_var == NULL || testcookie_var->not_found) {
+            return NGX_DECLINED;
+        }
+
+        if (ngx_strcmp(testcookie_var->data, "on") != 0) {
+            return NGX_DECLINED;
+        }
     }
 
     if (conf->get_only
