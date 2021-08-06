@@ -624,10 +624,13 @@ ngx_http_testcookie_handler(ngx_http_request_t *r)
                       &testcookie_var->data);
 
         if (ngx_strcmp(testcookie_var->data, "on") != 0) {
+
+            ngx_log_debug0(NGX_LOG_DEBUG_HTTP, r->connection->log, 0, "ngx_http_testcookie_var5");
+
             return NGX_DECLINED;
         }
 
-        ngx_log_debug0(NGX_LOG_DEBUG_HTTP, r->connection->log, 0, "ngx_http_testcookie_var5");
+        ngx_log_debug0(NGX_LOG_DEBUG_HTTP, r->connection->log, 0, "ngx_http_testcookie_var6");
         
     }
 
