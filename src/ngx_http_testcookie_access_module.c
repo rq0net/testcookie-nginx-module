@@ -620,8 +620,8 @@ ngx_http_testcookie_handler(ngx_http_request_t *r)
         ngx_log_debug0(NGX_LOG_DEBUG_HTTP, r->connection->log, 0, "ngx_http_testcookie_var4");
 
         ngx_log_debug1(NGX_LOG_DEBUG_HTTP, r->connection->log, 0,
-                      "testcookie_var: \"%V\"",
-                      testcookie_var);
+                      "testcookie_var: \"%s\"",
+                      testcookie_var->data);
 
         if (ngx_strcmp(testcookie_var->data, "on") != 0) {
 
