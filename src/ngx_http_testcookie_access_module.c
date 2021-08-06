@@ -388,7 +388,7 @@ static ngx_str_t  ngx_http_testcookie_ok = ngx_string("testcookie_ok");
 static ngx_str_t  ngx_http_testcookie_nexturl = ngx_string("testcookie_nexturl");
 static ngx_str_t  ngx_http_testcookie_timestamp = ngx_string("testcookie_timestamp");
 
-static ngx_str_t ngx_http_testcookie_var = ngx_string("testcookie_var");
+static ngx_str_t  ngx_http_testcookie_var = ngx_string("testcookie_var");
 
 #ifdef REFRESH_COOKIE_ENCRYPTION
 static ngx_str_t  ngx_http_testcookie_enc_set = ngx_string("testcookie_enc_set");
