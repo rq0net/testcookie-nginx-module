@@ -608,17 +608,23 @@ ngx_http_testcookie_handler(ngx_http_request_t *r)
         testcookie_var = ngx_http_get_variable(r, &ngx_http_testcookie_var,
 			ngx_hash_key(ngx_http_testcookie_var.data, ngx_http_testcookie_var.len));
 
+        
 
         if (testcookie_var == NULL || testcookie_var->not_found) {
+            ngx_log_debug1(NGX_LOG_DEBUG_HTTP, r->connection->log, 0,
+                      "testcookie_var: null");
+
             return NGX_DECLINED;
         }
+
+        ngx_log_debug1(NGX_LOG_DEBUG_HTTP, r->connection->log, 0,
+                      "testcookie_var: \"%V\"",
+                      &testcookie_var->data);
 
         if (ngx_strcmp(testcookie_var->data, "on") != 0) {
             return NGX_DECLINED;
         }
-        ngx_log_debug1(NGX_LOG_DEBUG_HTTP, r->connection->log, 0,
-                      "testcookie_var: \"%V\"",
-                      &testcookie_var->data);
+        
     }
 
     if (conf->get_only
